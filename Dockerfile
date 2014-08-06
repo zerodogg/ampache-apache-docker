@@ -16,9 +16,9 @@ ADD https://github.com/ampache/ampache/archive/3.7.0.tar.gz /opt/3.7.0.tar.gz
 RUN cd /opt && TMP=$(md5sum 3.7.0.tar.gz | cut -c-32) && [ "$TMP" = "10e127f616e802340038e460a990586c" ]
 
 # extraction / installation
-RUN tar -C /opt -xf /opt/3.7.0.tar.gz
-RUN chown -R www-data /opt/ampache-3.7.0
-RUN cd /var/www/html && ln -s /opt/ampache-3.7.0 ampache
+RUN rm -rf /var/www/html/* && \
+    tar -C /var/www/html -xf /opt/3.7.0.tar.gz ampache-3.7.0 --strip=1 && \
+    chown -R www-data /var/www/html
 
 # setup mysql like this project does it: https://github.com/tutumcloud/tutum-docker-mysql
 # Remove pre-installed database
