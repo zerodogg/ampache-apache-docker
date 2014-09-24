@@ -1,6 +1,6 @@
 ## Usage
 ```bash
-docker run --name=ampache -d -v /path/to/your/music:/data:ro -p 8000:80 eric.frederich/ampache
+docker run --name=ampache -d -v /path/to/your/music:/media:ro -p 80:80 ampache/ampache
 ```
 
 ## Installation
@@ -12,3 +12,7 @@ docker run --name=ampache -d -v /path/to/your/music:/data:ro -p 8000:80 eric.fre
 - next page fill out MySQL Username / Password
 - Click the "Write" buttons from BOTTOM to TOP
 - Do this because it is the last one that needs the username and password and they get blanked out on every click
+
+## Thanks to
+- @ericfrederich for his original work
+- @velocity303 and @goldy for the other ampache-docker inspiration
