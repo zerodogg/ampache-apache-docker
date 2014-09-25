@@ -15,12 +15,12 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server apache2 wget php5 php5-json php5-curl php5-mysqlnd pwgen lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libfaac-dev libtheora-dev libvpx-dev libav-tools
 
 # For local testing / faster builds
-# COPY latest.tar.gz /opt/latest.tar.gz
-ADD https://github.com/ampache/ampache/archive/latest.tar.gz /opt/latest.tar.gz
+# COPY master.tar.gz /opt/master.tar.gz
+ADD https://github.com/ampache/ampache/archive/master.tar.gz /opt/master.tar.gz
 
 # extraction / installation
 RUN rm -rf /var/www/* && \
-    tar -C /var/www -xf /opt/latest.tar.gz ampache-latest --strip=1 && \
+    tar -C /var/www -xf /opt/master.tar.gz ampache-master --strip=1 && \
     chown -R www-data /var/www
 
 # setup mysql like this project does it: https://github.com/tutumcloud/tutum-docker-mysql
