@@ -7,8 +7,8 @@ RUN echo 'deb http://archive.ubuntu.com/ubuntu trusty main multiverse' >> /etc/a
 
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install wget
-RUN wget -O - http://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add -
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install wget inotify-tools
+RUN wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add -
 RUN apt-get update
 
 # Need this environment variable otherwise mysql will prompt for passwords
@@ -39,6 +39,9 @@ ADD 001-ampache.conf /etc/apache2/sites-available/
 RUN rm -rf /etc/apache2/sites-enabled/*
 RUN ln -s /etc/apache2/sites-available/001-ampache.conf /etc/apache2/sites-enabled/
 RUN a2enmod rewrite
+
+# Add job to cron to clean the library every night
+RUN echo '30 7    * * *   www-data php /var/www/bin/catalog_update.inc' >> /etc/crontab
 
 VOLUME ["/media"]
 VOLUME ["/var/www/config"]
