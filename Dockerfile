@@ -12,7 +12,7 @@ RUN wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt
 RUN apt-get update
 
 # Need this environment variable otherwise mysql will prompt for passwords
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server apache2 wget php5 php5-json php5-curl php5-mysqlnd pwgen lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libfaac-dev libtheora-dev libvpx-dev libav-tools
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server apache2 wget php5 php5-json php5-curl php5-mysqlnd pwgen lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libfaac-dev libtheora-dev libvpx-dev libav-tools git
 
 # Install composer for dependency management
 RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
