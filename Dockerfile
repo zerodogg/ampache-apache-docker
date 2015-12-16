@@ -25,7 +25,7 @@ ADD https://github.com/ampache/ampache/archive/master.tar.gz /opt/master.tar.gz
 # extraction / installation
 RUN rm -rf /var/www/* && \
     tar -C /var/www -xf /opt/master.tar.gz ampache-master --strip=1 && \
-		cd /var/www && composer install --prefer-source --no-interaction && \
+    cd /var/www && composer install --prefer-source --no-interaction && \
     chown -R www-data /var/www
 
 # setup mysql like this project does it: https://github.com/tutumcloud/tutum-docker-mysql
