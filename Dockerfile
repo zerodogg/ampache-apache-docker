@@ -24,7 +24,7 @@ ADD https://github.com/ampache/ampache/archive/master.tar.gz /opt/ampache-master
 
 # extraction / installation
 RUN rm -rf /var/www/* && \
-    tar -C /var/www -xf /opt/master.tar.gz ampache-master --strip=1 && \
+    tar -C /var/www -xf /opt/ampache-master.tar.gz ampache-master --strip=1 && \
     cd /var/www && composer install --prefer-source --no-interaction && \
     chown -R www-data /var/www
 
