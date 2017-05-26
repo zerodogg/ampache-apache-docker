@@ -24,6 +24,7 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php && \
 ENV AMPACHE_VERSION 3.8.2
 
 ADD https://github.com/ampache/ampache/archive/${AMPACHE_VERSION}.tar.gz /opt/ampache-${AMPACHE_VERSION}.tar.gz
+ADD ampache.cfg.php.dist /var/temp/ampache.cfg.php.dist
 
 # extraction / installation
 RUN rm -rf /var/www/* && \
