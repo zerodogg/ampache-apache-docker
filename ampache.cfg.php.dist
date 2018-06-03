@@ -46,7 +46,7 @@ config_version = 33
 ; Hostname of your database
 ; For socket authentication, set the path to socket file (e.g. /var/run/mysqld/mysqld.sock)
 ; DEFAULT: localhost
-database_hostname = localhost
+database_hostname = mysql
 
 ; Port to use when connecting to your database
 ; DEFAULT: none
