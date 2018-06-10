@@ -27,7 +27,8 @@ RUN rm -rf /var/www/html/* && \
     tar -C /var/www/html/ -xf /opt/ampache-master.tar.gz ampache-master --strip=1 && \
     chown -R www-data /var/www/html/ && \
     cd /var/www/html && sudo -u www-data composer install --prefer-source --no-interaction && \
-    chown -R www-data /var/www/html
+    chown -R www-data /var/www/html && \
+    for sub in rest channel play; do cp /var/www/html/$sub/.htaccess.dist /var/www/html/$sub/.htaccess;done
 
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh
