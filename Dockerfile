@@ -30,6 +30,8 @@ RUN rm -rf /var/www/html/* && \
     chown -R www-data /var/www/html && \
     for sub in rest channel play; do cp /var/www/html/$sub/.htaccess.dist /var/www/html/$sub/.htaccess;done
 
+RUN ln -sf /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
+
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh
 
