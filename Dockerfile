@@ -28,7 +28,7 @@ RUN rm -rf /var/www/html/* && \
     chown -R www-data /var/www/html/ && \
     cd /var/www/html && sudo -u www-data composer install --prefer-source --no-interaction && \
     chown -R www-data /var/www/html && \
-    for sub in rest channel play; do cp /var/www/html/$sub/.htaccess.dist /var/www/html/$sub/.htaccess;done
+    for dir in $(find /var/www/html -name .htaccess.dist -print0|xargs -0 dirname); do cp $dir/.htaccess.dist $dir/.htaccess;done
 
 RUN ln -sf /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 
