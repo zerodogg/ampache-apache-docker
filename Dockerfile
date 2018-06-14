@@ -10,7 +10,7 @@ RUN echo 'deb http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sou
 
 RUN wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y install pwgen lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libtheora-dev libvpx-dev libav-tools git libpng-dev libjpeg-dev libfreetype6-dev
+    DEBIAN_FRONTEND=noninteractive apt-get -y install lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libtheora-dev libvpx-dev libav-tools git libpng-dev libjpeg-dev libfreetype6-dev
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr; \
     docker-php-ext-install pdo_mysql gd
