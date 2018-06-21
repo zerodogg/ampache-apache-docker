@@ -17,7 +17,7 @@ RUN apt-get update && \
     wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - && \
     apt-get update && \
     # Install libraries/codecs and tools that ampache needs
-    DEBIAN_FRONTEND=noninteractive apt-get -y install inotify-tools lame libvorbis-dev vorbis-tools flac libmp3lame-dev libavcodec-extra* libtheora-dev libvpx-dev libav-tools git libpng-dev libjpeg-dev libfreetype6-dev && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install inotify-tools lame libvorbisfile3 libvorbisenc2 vorbis-tools flac libmp3lame0 libavcodec-extra* libtheora0 libvpx4 libav-tools git libpng-dev libjpeg-dev libfreetype6-dev && \
     # Install PHP extensions (GD+MySQL)
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr && \
     docker-php-ext-install pdo_mysql gd  && \
@@ -25,7 +25,9 @@ RUN apt-get update && \
     php -r "readfile('https://getcomposer.org/installer');" | php && \
     mv composer.phar /usr/local/bin/composer && \
     # Clean up
-    apt-get clean
+    apt-get clean && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y purge libpng-dev libjpeg-dev libfreetype6-dev && \
+    rm -rf /var/lib/apt/lists/*
 
     # Download, extract and install ampache
 RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$version.tar.gz && \
@@ -41,7 +43,7 @@ RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$vers
     ln -sf /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load && \
     # Clean up
     rm -f /opt/ampache.tar.gz && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y purge libvorbis-dev libmp3lame-dev libtheora-dev libvpx-dev libpng-dev libjpeg-dev libfreetype6-dev
+    DEBIAN_FRONTEND=noninteractive apt-get -y purge --auto-remove g++-6 gcc-6 dpkg-dev libc6-dev libgcc-6-dev libstdc++-6-dev linux-libc-dev zlib1g-dev libc-dev-bin
 
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh
