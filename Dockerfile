@@ -4,8 +4,6 @@ MAINTAINER zerodogg
 # The ampache version
 ARG version=3.8.8
 
-ADD ampache.cfg.php.dist /var/temp/ampache.cfg.php.dist
-
     # First update the contents of the image
 RUN apt-get update && \
     apt-get -y upgrade && \
@@ -41,6 +39,13 @@ RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$vers
     for dir in $(find /var/www/html -name .htaccess.dist -print0|xargs -0 dirname); do cp $dir/.htaccess.dist $dir/.htaccess;done && \
     # Enable mod_rewrite
     ln -sf /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load && \
+    # Modify the .dist config:
+    # - comment out database_name and database_username by default
+    # - set the default database_hostname to "mysql"
+    perl -pi -E 's{^(database_username|database_name)}{;$1}g; s{^database_hostname\s*=.*}{database_hostname = mysql}' /var/www/html/config/ampache.cfg.php.dist && \
+    # Copy the .dist somewhere outside of the /config tree, so that we can
+    # update it when needed
+    cp /var/www/html/config/ampache.cfg.php.dist /ampache.cfg.php.dist && \
     # Clean up
     rm -f /opt/ampache.tar.gz && \
     DEBIAN_FRONTEND=noninteractive apt-get -y purge --auto-remove g++-6 gcc-6 dpkg-dev libc6-dev libgcc-6-dev libstdc++-6-dev linux-libc-dev zlib1g-dev libc-dev-bin
