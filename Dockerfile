@@ -34,7 +34,7 @@ RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$vers
     # Fix ownership
     chown -R www-data /var/www/html/ && \
     # Install dependencies with composer
-    cd /var/www/html && sudo -u www-data composer install --prefer-source --no-interaction && \
+    cd /var/www/html && sudo -u www-data composer install --prefer-source --no-interaction --optimize-autoloader && \
     # Move all the htaccess files into place
     for dir in $(find /var/www/html -name .htaccess.dist -print0|xargs -0 dirname); do cp $dir/.htaccess.dist $dir/.htaccess;done && \
     # Enable mod_rewrite
