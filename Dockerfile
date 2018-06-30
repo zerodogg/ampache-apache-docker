@@ -35,6 +35,8 @@ RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$vers
     chown -R www-data /var/www/html/ && \
     # Install dependencies with composer
     cd /var/www/html && sudo -u www-data composer install --prefer-source --no-interaction --optimize-autoloader && \
+    # Remove git repo data that we don't need
+    find /var/www/html/lib/vendor -name .git -type d -print0 |xargs -0 -- rm -rf && \
     # Move all the htaccess files into place
     for dir in $(find /var/www/html -name .htaccess.dist -print0|xargs -0 dirname); do cp $dir/.htaccess.dist $dir/.htaccess;done && \
     # Enable mod_rewrite
