@@ -1,8 +1,5 @@
 #!/bin/bash
 
-if [[ ! -f /var/www/html/config/ampache.cfg.php ]]; then
-    sudo -u www-data cp /ampache.cfg.php.dist /var/www/html/config/ampache.cfg.php.dist
-fi
 # Update the .dist file in the volume, so that we *KNOW* that it is up-to-date
 # with the ampache version
 sudo -u www-data cp /ampache.cfg.php.dist /var/www/html/config/ampache.cfg.php.dist
