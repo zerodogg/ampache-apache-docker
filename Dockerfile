@@ -15,7 +15,7 @@ RUN apt-get update && \
     wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - && \
     apt-get update && \
     # Install libraries/codecs and tools that ampache needs
-    DEBIAN_FRONTEND=noninteractive apt-get -y install inotify-tools lame libvorbisfile3 libvorbisenc2 vorbis-tools flac libmp3lame0 libavcodec-extra* libtheora0 libvpx4 libav-tools git libpng-dev libjpeg-dev libfreetype6-dev && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y install inotify-tools lame libvorbisfile3 libvorbisenc2 vorbis-tools flac libmp3lame0 libavcodec-extra* libtheora0 libvpx4 libav-tools git libpng-dev libjpeg-dev libfreetype6-dev libjpeg62-turbo && \
     # Install PHP extensions (GD+MySQL)
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr && \
     docker-php-ext-install pdo_mysql gd  && \
