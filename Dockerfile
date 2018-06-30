@@ -4,9 +4,8 @@ MAINTAINER zerodogg
 # The ampache version
 ARG version=3.8.8
 
-    # First update the contents of the image
+    # Fetch apt repo metadata
 RUN apt-get update && \
-    apt-get -y upgrade && \
     # Install debs needed to add the VLC repo
     DEBIAN_FRONTEND=noninteractive apt-get -y install wget sudo gnupg2 && \
     # Add the VLC repo to get up-to-date codecs
