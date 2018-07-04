@@ -40,6 +40,21 @@ be read-only.
 `/var/www/html/themes` is where custom themes reside. You only need to worry
 about this one if you actually want to use custom themes.
 
+## Auto-updating the library
+
+The container will, by default, auto-update the ampache library. However, since
+this uses inotify, and the default max number of files allowed to be monitored
+on most systems is rather low (8192). Thus you will need to increase the number
+of watches allowed by writing to /proc/sys/fs/inotify/max_user_watches or
+setting the sysctl fs.inotify.max_user_watches if you want the container to use
+inotify. If the inotify max_user_watches is set to the default 8192, the
+container will not monitor the library for changes, but trigger an update of
+the library every 24 hours.
+
+If you are sure that your library is small enough for 8192 watches to be
+enough, you can set the environment variable `AMPACHE_FORCE_INOTIFY` to any
+value, and it will bypass the max_user_watches check.
+
 ## Thanks to
 - @arielelkin for the initial work on this container
 - @ericfrederich for his original work
