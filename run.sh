@@ -6,11 +6,11 @@ sudo -u www-data cp /ampache.cfg.php.dist /var/www/html/config/ampache.cfg.php.d
 
 # Start a process to watch for changes in the library with inotify
 (
-while true; do
-    inotifywatch /media
-    sudo -u www-data php /var/www/html/bin/catalog_update.inc -a
-    sleep 30
-done
+    while true; do
+        inotifywait -r /media
+        sudo -u www-data php /var/www/html/bin/catalog_update.inc -a
+        sleep 30
+    done
 ) &
 
 # run this in the foreground so Docker won't exit
