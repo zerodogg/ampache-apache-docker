@@ -4,17 +4,19 @@ Docker container for [Ampache](http://ampache.org), a web based audio/video
 streaming application and file manager allowing you to access your music &
 videos from anywhere, using almost any internet enabled device.
 
-This image ships ampache on top of mod_php on Apache. It is listening on port
-80. It does not come with a database. It is suggested that you install a
+This image ships ampache on top of mod_php on Apache. It is listening on
+port 80. It does not come with a database. It is suggested that you install a
 separate container (for instance [the official
 mariadb](https://hub.docker.com/_/mariadb/) image) and then either `--link` the
 container or put it on the same docker network as the ampache container. Then
 you can connect to it from your ampache container.
 
 ## Quick usage
+
 ```bash
 docker run --link mariadb:mariadb --name=ampache -d -v /path/to/your/music:/media:ro -p 80:80 zerodogg/ampache
 ```
+
 Then visit the container in a web browser to complete the setup. When prompted
 for database, provide the credentials for the database you `--link`ed or that
 is on the same network (the link name, or the name of the database container).
@@ -52,8 +54,8 @@ logs when the container starts if the number of inotify watches is too low.
 
 If it is too low for your library and you want to use auto-updating, you can
 increase the allowed number of inotify watches by writing to
-/proc/sys/fs/inotify/max_user_watches or setting the sysctl
-fs.inotify.max_user_watches (since /proc is read-only in the container, it
+`/proc/sys/fs/inotify/max_user_watches` or setting the sysctl
+`fs.inotify.max_user_watches` (since `/proc` is read-only in the container, it
 can't do that on its own).
 
 ## Thanks to
