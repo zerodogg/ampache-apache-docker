@@ -1,14 +1,15 @@
 # ampache-apache
 
-Docker container for Ampache, a web based audio/video streaming application and
-file manager allowing you to access your music & videos from anywhere, using
-almost any internet enabled device.
+Docker container for [Ampache](http://ampache.org), a web based audio/video
+streaming application and file manager allowing you to access your music &
+videos from anywhere, using almost any internet enabled device.
 
-This is image does not come with a database. It is suggested that you install
-a separate container (for instance [the official
+This image ships ampache on top of mod_php on Apache. It is listening on port
+80. It does not come with a database. It is suggested that you install a
+separate container (for instance [the official
 mariadb](https://hub.docker.com/_/mariadb/) image) and then either `--link` the
-container or put it on the same network as the ampache container. Then you can
-connect to it from your ampache container.
+container or put it on the same docker network as the ampache container. Then
+you can connect to it from your ampache container.
 
 ## Quick usage
 ```bash
@@ -22,9 +23,10 @@ is on the same network (the link name, or the name of the database container).
 
 The image is based upon the upstream `php` image (7.1 on Debian stretch at the
 moment). It exposes ampache (via apache and mod_php) on port `80`. If you want
-to run it on https, you can achieve this by having a reverse proxy in front of
-it. The [nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy/) container
-paired with
+to run it on https (or run several webapps on the same host), you can achieve
+this by having a reverse proxy in front of it. The
+[nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy/) container paired
+with
 [letsencrypt-nginx-proxy-companion](https://hub.docker.com/r/jrcs/letsencrypt-nginx-proxy-companion/)
 works great along with this container and is simple to set up.
 
