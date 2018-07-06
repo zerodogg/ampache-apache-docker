@@ -6,29 +6,33 @@ sudo -u www-data cp /ampache.cfg.php.dist /var/www/html/config/ampache.cfg.php.d
 
 # Start a background process to auto-update the library
 (
-    if [ "$(cat /proc/sys/fs/inotify/max_user_watches)" == "8192" ] && [ "$AMPACHE_FORCE_INOTIFY" == "" ]; then
-        echo "********"
-        echo "NOTICE:"
-        echo "The maximum number of inotify watches is very small (the default 8192)."
-        echo "This is not enough for any large media collection. If you want to"
-        echo "auto-update the library on changes, you must increase the number of"
-        echo "inotify watches by writing to /proc/sys/fs/inotify/max_user_watches or"
-        echo "setting the sysctl value fs.inotify.max_user_watches. The container can't"
-        echo "do this on its own since its /proc is read-only."
-        echo ""
-        echo "Falling back to running an update approximately every 24 hours."
-        echo "********"
-        while true; do
-            sleep 24h
-            sudo -u www-data php /var/www/html/bin/catalog_update.inc -a
-        done
-    else
-        while true; do
-            inotifywait -r /media
-            sudo -u www-data php /var/www/html/bin/catalog_update.inc -a
-            sleep 30
-        done
-    fi
+    # By default, use inotifywait to watch the library
+    while true; do
+        inotifywait -r /media &>/dev/null
+        # If inotifywait returns 1 then the inotify limit is too small
+        if [ "$?" == "1" ]; then
+            break
+        fi
+        sudo -u www-data php /var/www/html/bin/catalog_update.inc -a
+        sleep 30
+    done
+    # This is the fallback method when the number of inotify watches is too small.
+    # It simply auto-updates the library once every 24 hours
+    watchesNo="$(cat /proc/sys/fs/inotify/max_user_watches)"
+    echo "********"
+    echo "NOTICE:"
+    echo "The maximum number of inotify watches ($watchesNo) is too small for your"
+    echo "media collection. If you want to auto-update the library on changes, you must"
+    echo "increase the permitted number of inotify watches by writing to"
+    echo "/proc/sys/fs/inotify/max_user_watches or setting the sysctl setting"
+    echo "fs.inotify.max_user_watches and then restart the container."
+    echo ""
+    echo "Falling back to running an update approximately every 24 hours."
+    echo "********"
+    while true; do
+        sleep 24h
+        sudo -u www-data php /var/www/html/bin/catalog_update.inc -a
+    done
 ) &
 
 # run this in the foreground so Docker won't exit

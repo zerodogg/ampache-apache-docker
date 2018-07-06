@@ -42,18 +42,17 @@ about this one if you actually want to use custom themes.
 
 ## Auto-updating the library
 
-The container will, by default, auto-update the ampache library. However, since
-this uses inotify, and the default max number of files allowed to be monitored
-on most systems is rather low (8192). Thus you will need to increase the number
-of watches allowed by writing to /proc/sys/fs/inotify/max_user_watches or
-setting the sysctl fs.inotify.max_user_watches if you want the container to use
-inotify. If the inotify max_user_watches is set to the default 8192, the
-container will not monitor the library for changes, but trigger an update of
-the library every 24 hours.
+The container will auto-update the ampache library. It uses inotify to monitor
+for changes. If your library is larger than the number of permitted inotify
+watches (by default 8192), however, it will fall back to just auto-updating the
+library every 24 hours instead. It will output a message visible in the docker
+logs when the container starts if the number of inotify watches is too low.
 
-If you are sure that your library is small enough for 8192 watches to be
-enough, you can set the environment variable `AMPACHE_FORCE_INOTIFY` to any
-value, and it will bypass the max_user_watches check.
+If it is too low for your library and you want to use auto-updating, you can
+increase the allowed number of inotify watches by writing to
+/proc/sys/fs/inotify/max_user_watches or setting the sysctl
+fs.inotify.max_user_watches (since /proc is read-only in the container, it
+can't do that on its own).
 
 ## Thanks to
 - @arielelkin for the initial work on this container
