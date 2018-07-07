@@ -14,7 +14,7 @@ you can connect to it from your ampache container.
 ## Quick usage
 
 ```bash
-docker run --link mariadb:mariadb --name=ampache -d -v /path/to/your/music:/media:ro -p 80:80 zerodogg/ampache
+docker run --link mariadb:mariadb --name=ampache -d -v /path/to/your/music:/media:ro -p 80:80 zerodogg/ampache-apache
 ```
 
 Then visit the container in a web browser to complete the setup. When prompted
