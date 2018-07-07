@@ -1,5 +1,5 @@
 FROM php:7.1-apache-stretch
-MAINTAINER zerodogg
+LABEL maintainer="Eskild Hustvedt code@zerodogg.org"
 
 # The ampache version
 ARG version=3.8.8
