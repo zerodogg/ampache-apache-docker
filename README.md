@@ -19,7 +19,8 @@ docker run --link mariadb:mariadb --name=ampache -d -v /path/to/your/music:/medi
 
 Then visit the container in a web browser to complete the setup. When prompted
 for database, provide the credentials for the database you `--link`ed or that
-is on the same network (the link name, or the name of the database container).
+is on the same network (using the link name, or the name of the database
+container as the hostname).
 
 ## Image details
 
