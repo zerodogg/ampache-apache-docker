@@ -3,6 +3,10 @@ LABEL maintainer="Eskild Hustvedt code@zerodogg.org"
 
 # The ampache version
 ARG version=3.8.8
+# The composer version
+ARG composerVersion=1.6.5
+# The composer checksum
+ARG composerChecksum=a94a9497ad45cf5bfb2cd4669c73f8cd3b86d0d97a13828ee3b48e8675972293cec898bfb977e55cddf26c5261c5e039310b821d2d5eb4fa046ec5e9e317b21e
 
     # Fetch apt repo metadata
 RUN apt-get update && \
@@ -30,8 +34,9 @@ RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$vers
     # Fix ownership
     chown -R www-data /var/www/html/ && \
     # Install composer (used to install PHP library dependencies)
-    php -r "readfile('https://getcomposer.org/installer');" | php && \
-    mv composer.phar /usr/local/bin/composer && \
+    wget -O /usr/local/bin/composer "https://github.com/composer/getcomposer.org/raw/HEAD/web/download/$composerVersion/composer.phar" && \
+    /usr/bin/test "`sha512sum /usr/local/bin/composer|cut -d' ' -f 1`" = "$composerChecksum" && \
+    chmod 755 /usr/local/bin/composer && \
     # Install dependencies with composer
     cd /var/www/html && sudo -u www-data composer install --prefer-source --no-interaction --optimize-autoloader && \
     # Remove composer
