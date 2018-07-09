@@ -18,9 +18,6 @@ RUN apt-get update && \
     # Install PHP extensions (GD+MySQL)
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr && \
     docker-php-ext-install pdo_mysql gd  && \
-    # Install composer (used to install PHP library dependencies)
-    php -r "readfile('https://getcomposer.org/installer');" | php && \
-    mv composer.phar /usr/local/bin/composer && \
     # Clean up
     apt-get clean && \
     DEBIAN_FRONTEND=noninteractive apt-get -y purge libpng-dev libjpeg-dev libfreetype6-dev && \
@@ -32,8 +29,13 @@ RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$vers
     tar -C /var/www/html/ -xf /opt/ampache.tar.gz ampache-$version --strip=1 && \
     # Fix ownership
     chown -R www-data /var/www/html/ && \
+    # Install composer (used to install PHP library dependencies)
+    php -r "readfile('https://getcomposer.org/installer');" | php && \
+    mv composer.phar /usr/local/bin/composer && \
     # Install dependencies with composer
     cd /var/www/html && sudo -u www-data composer install --prefer-source --no-interaction --optimize-autoloader && \
+    # Remove composer
+    rm -f /usr/local/bin/composer && \
     # Remove git repo data that we don't need
     find /var/www/html/lib/vendor -name .git -type d -print0 |xargs -0 -- rm -rf && \
     # Move all the htaccess files into place
