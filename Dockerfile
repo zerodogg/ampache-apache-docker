@@ -3,6 +3,8 @@ LABEL maintainer="Eskild Hustvedt code@zerodogg.org"
 
 # The ampache version
 ARG version=3.8.8
+# Checksum for the ampache tarball
+ARG tarballChecksum=4aa010b6bb42a192d6e2408265a78e738a356c08bfb43464fbc6e6375d8cdc9e4701280db0b21f73a1302b2792f9474c6dc5c7808c977a29aab2047a80caebfc
 # The composer version
 ARG composerVersion=1.6.5
 # The composer checksum
@@ -29,6 +31,7 @@ RUN apt-get update && \
 
     # Download, extract and install ampache
 RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$version.tar.gz && \
+    /usr/bin/test "`sha512sum /opt/ampache.tar.gz|cut -d' ' -f 1`" = "$tarballChecksum" && \
     rm -rf /var/www/html/* && \
     tar -C /var/www/html/ -xf /opt/ampache.tar.gz ampache-$version --strip=1 && \
     # Fix ownership
