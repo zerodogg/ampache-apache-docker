@@ -17,7 +17,7 @@ RUN apt-get update && \
     # Add the VLC repo to get up-to-date codecs
     echo 'deb http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list && \
     echo 'deb-src http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list && \
-    wget -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - && \
+    wget --progress=bar:force:noscroll -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - && \
     apt-get update && \
     # Install libraries/codecs and tools that ampache needs
     DEBIAN_FRONTEND=noninteractive apt-get -y install inotify-tools lame libvorbisfile3 libvorbisenc2 vorbis-tools flac libmp3lame0 libavcodec-extra* libtheora0 libvpx4 libav-tools git libpng-dev libjpeg-dev libfreetype6-dev libjpeg62-turbo && \
@@ -30,14 +30,14 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
     # Download, extract and install ampache
-RUN wget -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$version.tar.gz && \
+RUN wget --progress=bar:force:noscroll -O /opt/ampache.tar.gz https://github.com/ampache/ampache/archive/$version.tar.gz && \
     /usr/bin/test "`sha512sum /opt/ampache.tar.gz|cut -d' ' -f 1`" = "$tarballChecksum" && \
     rm -rf /var/www/html/* && \
     tar -C /var/www/html/ -xf /opt/ampache.tar.gz ampache-$version --strip=1 && \
     # Fix ownership
     chown -R www-data /var/www/html/ && \
     # Install composer (used to install PHP library dependencies)
-    wget -O /usr/local/bin/composer "https://github.com/composer/getcomposer.org/raw/HEAD/web/download/$composerVersion/composer.phar" && \
+    wget --progress=bar:force:noscroll -O /usr/local/bin/composer "https://github.com/composer/getcomposer.org/raw/HEAD/web/download/$composerVersion/composer.phar" && \
     /usr/bin/test "`sha512sum /usr/local/bin/composer|cut -d' ' -f 1`" = "$composerChecksum" && \
     chmod 755 /usr/local/bin/composer && \
     # Install dependencies with composer
