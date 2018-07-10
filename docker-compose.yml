@@ -1,0 +1,21 @@
+version: '2'
+services:
+  ampache:
+    image: zerodogg/ampache-apache
+    container_name: ampache
+    volumes:
+      - ./volumes/music:/media:ro
+    ports:
+      - 8080:80
+    links:
+      - db
+
+  db:
+    image: mariadb:10
+    container_name: db
+    environment:
+     - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - ./volumes/mysql/:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
+    command: /bin/true
