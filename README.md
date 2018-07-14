@@ -13,22 +13,28 @@ you can connect to it from your ampache container.
 
 ## Quick usage
 
+### docker run
+
 ```bash
 docker run --link mariadb:mariadb --name=ampache -d -v /path/to/your/music:/media:ro -p 80:80 zerodogg/ampache-apache
 ```
-
-Or using docker-compose, clone this repo or download the [docker-compose](https://github.com/juanluisbaptiste/ampache-apache-docker/blob/master/docker-compose.yml) file and then start it up:
-
-```bash
-docker-compose up
-```
-
-You can change MYSQL_ROOT_PASSWORD env variable to use a non-default value.
 
 Then visit the container in a web browser to complete the setup. When prompted
 for database, provide the credentials for the database you `--link`ed or that
 is on the same network (using the link name, or the name of the database
 container as the hostname).
+
+### docker-compose
+
+Clone the git repository from https://gitlab.com/zerodogg/ampache-docker or
+download the [docker-compose.yml file](https://gitlab.com/zerodogg/ampache-docker/raw/master/docker-compose.yml).
+Then run ``docker-compose up`` from the directory that you downloaded the
+`docker-compose.yml` file to.
+
+You should probably change the MYSQL_ROOT_PASSWORD environment variable in the
+docker-compose file to a non-default value.
+
+Then visit the container in a web browser to complete the setup.
 
 ## Image details
 
