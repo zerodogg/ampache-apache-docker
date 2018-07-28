@@ -2,9 +2,9 @@ FROM php:7.1-apache-stretch
 LABEL maintainer="Eskild Hustvedt code@zerodogg.org"
 
 # The ampache version
-ARG version=3.8.8
+ARG version=3.8.9
 # Checksum for the ampache tarball
-ARG tarballChecksum=4aa010b6bb42a192d6e2408265a78e738a356c08bfb43464fbc6e6375d8cdc9e4701280db0b21f73a1302b2792f9474c6dc5c7808c977a29aab2047a80caebfc
+ARG tarballChecksum=188af3dac8acb6dcb49a779c560a5ca1a2e8cb84366f086325a77d9edc683833facf9df5ec911a7ac37ad2756894f85346c1f7a3dc68bfdd82448eaf08a9454c
 # The composer version
 ARG composerVersion=1.6.5
 # The composer checksum
