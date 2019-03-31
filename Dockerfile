@@ -20,13 +20,15 @@ RUN apt-get update && \
     wget --progress=bar:force:noscroll -O - https://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - && \
     apt-get update && \
     # Install libraries/codecs and tools that ampache needs
-    DEBIAN_FRONTEND=noninteractive apt-get -y install inotify-tools lame libvorbisfile3 libvorbisenc2 vorbis-tools flac libmp3lame0 libavcodec-extra* libtheora0 libvpx4 libav-tools git libpng-dev libjpeg-dev libfreetype6-dev libjpeg62-turbo && \
-    # Install PHP extensions (GD+MySQL)
+    DEBIAN_FRONTEND=noninteractive apt-get -y install inotify-tools lame libvorbisfile3 libvorbisenc2 vorbis-tools flac libmp3lame0 libavcodec-extra* libtheora0 libvpx4 libav-tools git libpng-dev libjpeg-dev libfreetype6-dev libjpeg62-turbo libxml2 libxml2-dev && \
+    # Install core PHP extensions (GD+MySQL)
     docker-php-ext-configure gd --with-freetype-dir=/usr --with-png-dir=/usr --with-jpeg-dir=/usr && \
-    docker-php-ext-install pdo_mysql gd  && \
+    docker-php-ext-install pdo_mysql gd && \
+    # Install secondary extensions needed for UPNP
+    CFLAGS="-I/usr/src/php" docker-php-ext-install sockets xmlreader && \
     # Clean up
     apt-get clean && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y purge libpng-dev libjpeg-dev libfreetype6-dev && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y purge libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev && \
     rm -rf /var/lib/apt/lists/*
 
     # Download, extract and install ampache
